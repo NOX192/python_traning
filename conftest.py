@@ -13,6 +13,8 @@ def app(request):
         if not fixture.is_valid():
             fixture = Application()
             fixture.session.login(username="admin", pwd="secret")
+    if fixture.count() == 0:
+        fixture.session.login(username="admin", pwd="secret")
     return fixture
 
 
