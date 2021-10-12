@@ -94,8 +94,8 @@ class ContactHelper:
 
     def open_contact_page(self):
         wd = self.app.wd
-        # button "home"
-        wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("add")) > 0):
+            wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
 
     def click_submit(self):
         wd = self.app.wd
