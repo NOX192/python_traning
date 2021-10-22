@@ -1,7 +1,8 @@
 from selenium.webdriver.support.ui import Select
-
+from model.contact import Contact
 
 class ContactHelper:
+
 
     def __init__(self, app):
         self.app = app
@@ -21,12 +22,15 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
+        wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
+
 
     def delete_first_in_form(self):
         wd = self.app.wd
         self.open_contact_page()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/input[2]").click()
+        wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
 
     def delete_all(self):
         wd = self.app.wd
@@ -36,6 +40,7 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
+        wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
 
     def first_edit_lower(self, contact):
         # button "update" of the bottom
@@ -45,6 +50,7 @@ class ContactHelper:
         self.fill_contact_form(contact)
         # button "update"
         wd.find_element_by_xpath("/html/body/div/div[4]/form[1]/input[22]").click()
+        wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
 
     def first_edit_upper(self, contact):
         # button "update" at the top
@@ -53,6 +59,7 @@ class ContactHelper:
         self.submit_edit()
         self.fill_contact_form(contact)
         self.submit_update_top()
+        wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
 
     def submit_update_top(self):
         wd = self.app.wd
@@ -112,3 +119,17 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contact_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.open_contact_page()
+        contacts = []
+        n = 2
+        for element in wd.find_elements_by_name("entry"):
+            ln = element.find_element_by_xpath(f"//tbody/tr[{n}]/td[2]").text
+            fn = element.find_element_by_xpath(f"//tbody/tr[{n}]/td[3]").text
+            n = n + 1
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(lastname=ln, firstname=fn, id=id))
+        return contacts
+
