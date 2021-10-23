@@ -16,20 +16,31 @@ class ContactHelper:
         self.contact_cache = None
 
     def delete_first(self):
+        self.delete_by_index(0)
+
+    def delete_by_index(self, index):
         wd = self.app.wd
         self.open_contact_page()
         # select first contact
-        wd.find_element_by_name("selected[]").click()
+        self.select_group_by_index(index)
         # submit deletion
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
         self.contact_cache = None
 
+    def select_group_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_first_group(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+
     def delete_first_in_form(self):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        self.submit_edit()
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/input[2]").click()
         wd.find_element_by_xpath("//*[@id='nav']/ul/li[1]/a").click()
         self.contact_cache = None
@@ -72,7 +83,11 @@ class ContactHelper:
 
     def submit_edit(self):
         wd = self.app.wd
-        wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        wd.find_element_by_title("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+
+    def submit_edit_by_index(self, index):
+        wd = self.app.wd
+        wd.find_element_by_xpath(f"/html/body/div/div[4]/form[2]/table/tbody/tr[{index+2}]/td[8]/a/img").click()
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -113,10 +128,13 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("submit").click()
 
-    def modify_first(self, new_contact_data):
+    def modify_first(self):
+        self.submit_edit_by_index(0)
+
+    def modify_by_index(self, index, new_contact_data):
         wd = self.app.wd
         self.open_contact_page()
-        self.submit_edit()
+        self.submit_edit_by_index(index)
         self.fill_contact_form(new_contact_data)
         self.submit_update_top()
         self.contact_cache = None
