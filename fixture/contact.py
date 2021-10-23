@@ -119,6 +119,7 @@ class ContactHelper:
         self.submit_edit()
         self.fill_contact_form(new_contact_data)
         self.submit_update_top()
+        self.contact_cache = None
 
     def count(self):
         wd = self.app.wd
