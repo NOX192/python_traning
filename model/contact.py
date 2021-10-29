@@ -4,7 +4,7 @@ class Contact:
     def __init__(self, firstname=None, lastname=None, nickname=None, company=None,
                  address=None, mobilephone=None, homephone=None, workphone=None, secondaryphone=None,
                  email=None, bday=None, bmonth=None, byear=None, id=None, all_phones_from_home_page=None, all_email=None,
-                 email1=None, email2=None, email3=None):
+                 email2=None, email3=None):
         self.firstname = firstname
         self.lastname = lastname
         self.nickname = nickname
@@ -26,11 +26,13 @@ class Contact:
 
 
     def __repr__(self):
-        return "%s:%s %s" % (self.id, self.lastname, self.firstname)
+        return "%s:%s;%s;%s;%s;%s;%s;%s" % (self.id, self.lastname, self.firstname, self.nickname, self.company,
+                                         self.address, self.mobilephone, self.email )
 
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) and self.lastname == other.lastname and \
                self.firstname == other.firstname
+
 
 
     def id_or_max(self):
