@@ -127,3 +127,13 @@ class GroupHelper:
     def select_group_by_id(self, id):
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
+    def modify_group_by_id(self, id, new_group_data):
+        wd = self.app.wd
+        self.open_groups_page()
+        self.select_group_by_id(id)
+        self.submit_edit_group()
+        self.fill_group_form(new_group_data)
+        self.submit_update_group()
+        self.return_to_groups_page()
+        self.group_cache = None

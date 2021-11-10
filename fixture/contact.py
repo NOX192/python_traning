@@ -213,3 +213,15 @@ class ContactHelper:
     def select_contact_by_id(self, id):
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
+    def modify_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.open_contact_page()
+        self.submit_edit_by_id(id)
+        self.fill_contact_form(new_contact_data)
+        self.submit_update_top()
+        self.contact_cache = None
+
+    def submit_edit_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_xpath('//a[@href="edit.php?id=%s"]' % id).click()
