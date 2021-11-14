@@ -33,9 +33,9 @@ def test_contact_on_home_page_with_db(app, db):
             all_mails_from_db[i] = all_mails_from_db[i] + '\n' + contact_from_db[i].email2
         if contact_from_db[i].email3 != "":
             all_mails_from_db[i] = all_mails_from_db[i] + '\n' + contact_from_db[i].email3
-        all_phone_from_db = clear(str(all_phone_from_db))
-        all_phone_from_home_page = clear(str(all_phone_from_home_page))
-    assert sorted(contact_from_home_page, key=Contact.id_or_max) == sorted(contact_from_db, key=Contact.id_or_max)
+    all_phone_from_db = clear(str(all_phone_from_db))
+    all_phone_from_home_page = clear(str(all_phone_from_home_page))
+    assert contact_from_home_page == contact_from_db
     assert all_phone_from_home_page == all_phone_from_db
     assert all_mails_from_home_page == all_mails_from_db
     assert all_address_from_home_page == all_address_from_db
