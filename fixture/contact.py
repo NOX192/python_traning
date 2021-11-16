@@ -225,3 +225,20 @@ class ContactHelper:
     def submit_edit_by_id(self, id):
         wd = self.app.wd
         wd.find_element_by_xpath('//a[@href="edit.php?id=%s"]' % id).click()
+
+    def add_to_group_by_id(self, contact_id, group_id):
+        wd = self.app.wd
+        self.open_contact_page()
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_name("to_group").click()
+        wd.find_element_by_xpath("//form[@name='MainForm']//option[@value='%s']" % group_id).click()
+        wd.find_element_by_name("add").click()
+        self.contact_cache = None
+
+    def del_from_group_by_id(self, contact_id, group_id):
+        wd = self.app.wd
+        self.open_contact_page()
+        wd.find_element_by_name("group").click()
+        wd.find_element_by_xpath("//form[@id='right']//option[@value='%s']" % group_id).click()
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_name("remove").click()
